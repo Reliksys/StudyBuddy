@@ -43,9 +43,11 @@ def create_card(question, answer):
     conn = sqlite3.connect('database_of_project.db')
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO timetable (question, answer) VALUES (?, ?)",
+        "INSERT INTO flashcars (question, answer) VALUES (?, ?)",
         (question, answer)
     )
+    conn.commit()
+    conn.close()
 
 def get_all_tasks():
     conn = sqlite3.connect('database_of_project.db')

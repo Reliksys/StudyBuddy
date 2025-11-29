@@ -1,20 +1,20 @@
 import streamlit as st
-# import logic_cal
-# import logic_cards
+import logic_cal
+import logic_cards
 import db
-
+st.set_page_config(page_title="StudyBuddy")
 db.init_db()
 
-page = st.sidebar.radio("Меню", ["Дедлайны", "Карточки"])
+def main():
+    st.title("StudyBuddy")
+    menu = ["Календарь и Дедлайны", "Карточки"]
+    choice = st.sidebar.selectbox("Меню", menu)
 
-st.title("Есть ли коннект с базой данных???")
+    if choice == "Календарь и Дедлайны":
+        logic_cal.run()
+        
+    elif choice == "Карточки":
+        logic_cards.show_flashcards_page()
 
-name = st.text_input("Название задачи")
-if st.button("Сохранить задачу"):
-    db.create_task(name, "2025-12-10", 5, "2026-12-01")
-    st.success("Сохранено!")
-
-st.write("---")
-st.write("Список задач в базе:")
-tasks = db.get_all_tasks()
-st.write(tasks)
+if __name__ == '__main__':
+    main()

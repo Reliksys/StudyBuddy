@@ -14,7 +14,7 @@ def main():
         logic_cal.run()
         
     elif choice == "Карточки":
-        logic_cards.show_flashcards_page()
+        logic_cards.run()
 
 if __name__ == '__main__':
     main()

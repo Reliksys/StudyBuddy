@@ -17,7 +17,9 @@ def init_db():
         title TEXT NOT NULL,
         deadline TEXT NOT NULL,
         difficulty INTEGER NOT NULL,
-        start_date TEXT NOT NULL
+        priority TEXT NOT NULL,   -- <--- НОВАЯ КОЛОНКА
+        start_date TEXT NOT NULL,
+        status TEXT DEFAULT 'Active'
     );
     """
 
@@ -27,14 +29,13 @@ def init_db():
     conn.close()
 
 
-def create_task(title, deadline, difficulty, start_date):
+def create_task(title, deadline, difficulty, priority, start_date):
     conn = sqlite3.connect('database_of_project.db')
     cursor = conn.cursor()
     cursor.execute(
-        "INSERT INTO timetable (title, deadline, difficulty, start_date) VALUES (?, ?, ?, ?)",
-        (title, deadline, difficulty, start_date)
+        "INSERT INTO timetable (title, deadline, difficulty, priority, start_date) VALUES (?, ?, ?, ?, ?)",
+        (title, deadline, difficulty, priority, start_date)
     )
-
     conn.commit()
     conn.close()
 
@@ -52,7 +53,7 @@ def create_card(question, answer):
 def get_all_tasks():
     conn = sqlite3.connect('database_of_project.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM timetable ORDER BY deadline")
+    cursor.execute("SELECT * FROM timetable WHERE status = 'Active' ORDER BY deadline")
     tasks = cursor.fetchall()
     conn.close()    
     return tasks
@@ -65,3 +66,13 @@ def get_all_cards():
     tasks = cursor.fetchall()
     conn.close()
     return tasks
+
+
+def done_task(id):
+    conn = sqlite3.connect('database_of_project.db')
+    cursor = conn.cursor()
+    cursor.execute("UPDATE timetable SET status = 'Done' WHERE id = ?",
+                   (id))
+    conn.commit()
+    conn.close()
+

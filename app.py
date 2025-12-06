@@ -7,10 +7,10 @@ db.init_db()
 
 def main():
     st.title("StudyBuddy")
-    menu = ["Календарь и Дедлайны", "Карточки"]
+    menu = ["Дедлайны", "Карточки"]
     choice = st.sidebar.selectbox("Меню", menu)
 
-    if choice == "Календарь и Дедлайны":
+    if choice == "Дедлайны":
         logic_cal.run()
         
     elif choice == "Карточки":
